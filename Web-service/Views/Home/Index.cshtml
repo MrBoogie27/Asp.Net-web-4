@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Задачи</title>
+    <style type="text/css">
+        table {
+            background: white; /* Цвет фона таблицы */
+            color: black; /* Цвет текста */
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        td, th {
+            padding: 5px; /* Поля вокруг текста */
+            width:200px;
+        }
+    </style>
+</head>
+@Scripts.Render("~/Scripts/jquery-1.10.2.js")
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+<body>
+    <div>
+        <div style="position:fixed; right:0;">
+            @using (Ajax.BeginForm("AjaxFind", "Home", new AjaxOptions { UpdateTargetId = "container" }))
+            {
+                <select name="sel">
+                    <option value="1">Все</option>
+                    <option value="2">Не выполненные</option>
+                    <option value="3">Выполненные</option>
+                </select>
+                <input type="text" id="inp" name="data" />
+                <input type="submit" value="Поиск" />
+            }
+            <p id="container"></p>
+        </div>
+
+        <h3>Задачи @ViewBag.User.Email:</h3>
+        <p><a href="Insert">Добавить задачу</a></p>
+
+        <table>
+            <tr>
+                <td><p>Название </p></td>
+                <td><p>Описание </p></td>
+                <td><p>Состояние</p></td>
+                <td></td>
+                <td></td>
+            </tr>
+            @foreach (var b in ViewBag.Tasks)
+            {
+                <tr>
+                    <td><p>@b.Name </p></td>
+                    <td><p>@b.Description </p></td>
+                    <td>
+                        <p>
+                            @if (b.condition == false)
+                            {
+                                @Ajax.ActionLink("Не выполнена", "AjaxUpdateCondition", "Home", new { data = @b.Id }, new AjaxOptions { UpdateTargetId = "condition" })
+                            }
+                            else
+                            {
+                                @Ajax.ActionLink("Выполнена", "AjaxUpdateCondition", "Home", new { data = @b.Id }, new AjaxOptions { UpdateTargetId = "condition" })
+                            }
+                        </p>
+                    </td>
+                    <td><p><a href="Change?id=@b.Id">Изменить</a></p></td>
+                    <td>
+                        <p>
+                            @Ajax.ActionLink("Удалить", "AjaxDelete", "Home", new {data = @b.Id}, new AjaxOptions {UpdateTargetId = "container"})
+                            <p id="container"></p>
+                        </p>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "Change";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Редактирование</title>
+    <style type="text/css">
+        table.comment {
+            background: white; /* Цвет фона таблицы */
+            color: black; /* Цвет текста */
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        td.comment, th.comment {
+            padding: 5px; /* Поля вокруг текста */
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h3>Редактирование задачи @ViewBag.Tasks.Name</h3>
+        <form method="post" action="">
+            <input type="hidden" value="@ViewBag.Tasks" name="Tasks" />
+            <table>
+                <tr>
+                    <td><p>Введите новое название :</p></td>
+                    <td><input type="text" name="Name" value="@ViewBag.Tasks.Name" /> </td>
+                </tr>
+                <tr>
+                    <td><p>Введите новое описание :</p></td>
+                    <td>
+                        <input type="text" name="Description" value="@ViewBag.Tasks.Description" />
+                    </td>
+                </tr>
+                <tr><td></td><td><input type="submit" value="Изменить" /></td></tr>
+            </table>
+        </form>
+        <p>
+            @Ajax.ActionLink("Добавить коментарии", "AjaxInsertComment", "Home", new { data = @ViewBag.Tasks.Id }, new AjaxOptions { UpdateTargetId = "container" })
+        <p id="container"></p>
+        </p>
+        <table class="comment">
+            @foreach (var b in ViewBag.Comment)
+            {
+            <tr>
+                <td class="comment"><p>@b.Description </p></td>
+                <td class="comment">
+                    <p>
+                        @Ajax.ActionLink("Изменить", "AjaxChangeComment", "Home", new { data = @b.Id }, new AjaxOptions { UpdateTargetId = "container" })
+                    <p id="container"></p>
+                    </p>
+                </td>
+                <td class="comment">
+                    <p>
+                        @Ajax.ActionLink("Удалить", "AjaxDeleteComment", "Home", new { data = @b.Id, idTask = @ViewBag.Tasks.Id }, new AjaxOptions { UpdateTargetId = "container" })
+                    <p id="container"></p>
+                    </p>
+                </td>
+            </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>

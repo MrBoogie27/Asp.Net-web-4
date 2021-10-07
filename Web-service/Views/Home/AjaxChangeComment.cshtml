@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "AjaxChangeComment";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Редактирование</title>
+</head>
+<body>
+    <div>
+        <h3>Редактирование Коментария @ViewBag.Comment.Description</h3>
+        @using (Ajax.BeginForm("AjaxChangeComments", "Home", new AjaxOptions { UpdateTargetId = "container" }))
+        {
+            <input type="text" id="inp" name="data" value="@ViewBag.Comment.Description" />
+            <input type="submit" value="Добавить" />
+        }
+        <p id="container"></p>
+    </div>
+</body>
+</html>

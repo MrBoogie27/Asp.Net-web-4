@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "Insert";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Добавление новой задачи</title>
+</head>
+<body>
+    <div>
+        <h3>Добавление новой задачи:</h3>
+        <form method="post" action="">
+            <input type="hidden" value="Tasks" name="Tasks" />
+            <table>
+                <tr>
+                    <td><p>Введите название :</p></td>
+                    <td><input type="text" name="Name" /> </td>
+                </tr>
+                <tr>
+                    <td><p>Введите описание :</p></td>
+                    <td>
+                        <input type="text" name="Description" />
+                    </td>
+                </tr>
+                <tr><td></td><td><input type="submit" value="Добавить" /> </td><td></td></tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
+
